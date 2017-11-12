@@ -9,6 +9,8 @@ package main.java.tree;
  */
 public class RootToLeafPaths {
 
+	private static int PATH_SUM = 0;
+
 	public static void printRootToLeafPaths(TreeNode<Integer> node) {
 		int[] path = new int[1000];
 		printPaths(node, path, 0);
@@ -30,6 +32,42 @@ public class RootToLeafPaths {
 			}
 			printPaths(root.getLeft(), path, pathLen);
 			printPaths(root.getRight(), path, pathLen);
+		}
+
+	}
+
+	public static void sumRootToLeafPathsValues(TreeNode<Integer> root, int[] path, int pathLen) {
+		if (root == null) {
+			return;
+		} else {
+			path[pathLen++] = root.getData();
+			if (root.getLeft() == null && root.getRight() == null) {
+				for (int count = 0; count < pathLen; count++) {
+					PATH_SUM = PATH_SUM + path[count];
+				}
+			}
+			sumRootToLeafPathsValues(root.getLeft(), path, pathLen);
+			sumRootToLeafPathsValues(root.getRight(), path, pathLen);
+		}
+
+	}
+
+	public static void sumRootToLeafPaths(TreeNode<Integer> node) {
+		int[] path = new int[1000];
+		sumRootToLeafPathsValues(node, path, 0);
+		System.out.println(PATH_SUM);
+	}
+
+	public static int sumRootToLeafPathsValuesSecond(TreeNode<Integer> root, int val) {
+		if (root == null) {
+			return 0;
+		} else {
+			val = val * 10 + root.getData();
+			if (root.getLeft() == null && root.getRight() == null) {
+				return val;
+			}
+			return sumRootToLeafPathsValuesSecond(root.getLeft(), val)
+					+ sumRootToLeafPathsValuesSecond(root.getRight(), val);
 		}
 
 	}
@@ -90,6 +128,38 @@ public class RootToLeafPaths {
 
 	}
 
+	public static void kDistantFromLeafUtil(TreeNode<Integer> node, int path[], boolean visited[], int pathLen, int k) {
+		// Base case
+		if (node == null)
+			return;
+
+		/* append this Node to the path array */
+		path[pathLen] = node.getData();
+		visited[pathLen] = false;
+		pathLen++;
+
+		/*
+		 * it's a leaf, so print the ancestor at distance k only if the ancestor
+		 * is not already printed
+		 */
+		if (node.getLeft() == null && node.getRight() == null && pathLen - k - 1 >= 0
+				&& visited[pathLen - k - 1] == false) {
+			System.out.print(path[pathLen - k - 1] + " ");
+			visited[pathLen - k - 1] = true;
+			return;
+		}
+
+		/* If not leaf node, recur for left and right subtrees */
+		kDistantFromLeafUtil(node.getLeft(), path, visited, pathLen, k);
+		kDistantFromLeafUtil(node.getRight(), path, visited, pathLen, k);
+	}
+
+	public static void printKDistantfromLeaf(TreeNode<Integer> node, int k) {
+		int path[] = new int[1000];
+		boolean visited[] = new boolean[1000];
+		kDistantFromLeafUtil(node, path, visited, 0, k);
+	}
+
 	public static void printMaxSumPath(TreeNode<Integer> root) {
 		TreeNode<Integer> referenceNode = null;
 		CustomInteger cs = new CustomInteger(-1);
@@ -103,11 +173,16 @@ public class RootToLeafPaths {
 		root.setRight(new TreeNode<Integer>(3));
 		root.getLeft().setLeft(new TreeNode<Integer>(4));
 		root.getLeft().setRight(new TreeNode<Integer>(5));
+		root.getRight().setLeft(new TreeNode<Integer>(6));
+		root.getRight().setRight(new TreeNode<Integer>(7));
 		BinaryTree<Integer> tree = new BinaryTree<Integer>(root);
 
 		System.out.println(tree);
 		// printRootToLeafPaths(tree.getRoot());
-		printMaxSumPath(tree.getRoot());
+		// printMaxSumPath(tree.getRoot());
+		//sumRootToLeafPaths(tree.getRoot());
+		//System.out.println(sumRootToLeafPathsValuesSecond(tree.getRoot(), 0));
+		printKDistantfromLeaf(tree.getRoot(),0);
 
 	}
 

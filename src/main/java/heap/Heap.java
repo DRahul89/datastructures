@@ -25,15 +25,15 @@ public class Heap {
 	public void maxHeapify(final int index) {
 		int left = getLeft(index);
 		int right = getRight(index);
-		if (left == -1 || right == -1)
+		if(left==-1 && right==-1)
 			return;
 		int max = -1;
-		if (this.heapArray[index] > this.heapArray[left]) {
+		if (left != -1 && this.heapArray[index] > this.heapArray[left]) {
 			max = index;
 		} else {
 			max = left;
 		}
-		if (this.heapArray[right] > this.heapArray[max])
+		if (right!=-1&&this.heapArray[right] > this.heapArray[max])
 			max = right;
 		if (max != index) {
 			int temp = this.heapArray[index];
@@ -46,15 +46,15 @@ public class Heap {
 	public void minHeapify(final int index) {
 		int left = getLeft(index);
 		int right = getRight(index);
-		if (left == -1 || right == -1)
+		if(left==-1 && right==-1)
 			return;
 		int min = -1;
-		if (this.heapArray[index] < this.heapArray[left]) {
+		if (left!=-1 && this.heapArray[index] < this.heapArray[left]) {
 			min = index;
 		} else {
 			min = left;
 		}
-		if (this.heapArray[right] < this.heapArray[min])
+		if (right!=-1 && this.heapArray[right] < this.heapArray[min])
 			min = right;
 		if (min != index) {
 			int temp = this.heapArray[index];
@@ -62,6 +62,24 @@ public class Heap {
 			this.heapArray[min] = temp;
 			minHeapify(min);
 		}
+	}
+	public int extractMaxKey() {
+		int max = this.getHeapArray()[0];
+		if(this.getCount() > 0){
+		this.getHeapArray()[0] = this.getHeapArray()[this.getCount() ];
+		this.setCount(this.getCount() - 1);
+		this.maxHeapify(0);
+		}
+		return max;
+	}
+	public int extractMinKey() {
+		int min = this.getHeapArray()[0];
+		if(this.getCount() > 0){
+		this.getHeapArray()[0] = this.getHeapArray()[this.getCount()];
+		this.setCount(this.getCount() - 1);
+		this.minHeapify(0);
+		}
+		return min;
 	}
 
 	private int getLeft(final int index) {
@@ -78,7 +96,7 @@ public class Heap {
 		return right;
 	}
 
-	public void buildHeap(final int[] input) {
+	public void buildMaxHeap(final int[] input) {
 		int length = input.length;
 		for (int j = 0; j < length; j++) {
 			this.heapArray[j] = input[j];
@@ -88,9 +106,19 @@ public class Heap {
 		}
 
 	}
+	public void buildMinHeap(final int[] input) {
+		int length = input.length;
+		for (int j = 0; j < length; j++) {
+			this.heapArray[j] = input[j];
+		}
+		for (int i = (length / 2); i >= 0; i--) {
+			minHeapify(i);
+		}
+
+	}
 
 	public void heapSort(int[] input) {
-		buildHeap(input);
+		buildMaxHeap(input);
 		for (int i = (input.length) - 1; i >= 0; i--) {
 			int temp = this.heapArray[0];
 			this.heapArray[0] = this.heapArray[i];

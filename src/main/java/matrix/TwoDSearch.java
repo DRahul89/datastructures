@@ -12,26 +12,6 @@ public class TwoDSearch {
 
 	}
 
-	public static boolean isElementFoundOptimized(final int[][] input,
-			final int data) {
-		Boolean isFound = false;
-		int firstIndex = input.length - 1;
-		int secondIndex = 0;
-		while (firstIndex > 0 && secondIndex < input.length-1) {
-			if (input[firstIndex][secondIndex] == data) {
-				isFound = true;
-				break;
-			} else if (input[firstIndex][secondIndex] > data) {
-				firstIndex--;
-			} else {
-				secondIndex++;
-			}
-		}
-
-		return isFound;
-
-	}
-
 	private static Boolean processRow(int[][] input, int data) {
 		for (int index = 0; index < input.length; index++) {
 			if (input[0][index] == data) {
@@ -76,15 +56,29 @@ public class TwoDSearch {
 		return false;
 	}
 
-	public static void main(String[] args) {
-		int[][] mat = new int[][] { { 10, 20, 30, 40 }, { 15, 25, 35, 45 },
-				{ 27, 29, 37, 48 }, { 32, 33, 39, 50 }, };
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				System.out.println(isElementFoundOptimized(mat, 100));
-
+	public static boolean isElementFoundOptimized(final int[][] input, final int data) {
+		Boolean isFound = false;
+		int firstIndex = input.length - 1;
+		int secondIndex = 0;
+		while (firstIndex > 0 && secondIndex < input.length - 1) {
+			if (input[firstIndex][secondIndex] == data) {
+				isFound = true;
+				break;
+			} else if (input[firstIndex][secondIndex] > data) {
+				firstIndex--;
+			} else {
+				secondIndex++;
 			}
 		}
+
+		return isFound;
+
+	}
+
+	public static void main(String[] args) {
+		int[][] mat = new int[][] { { 10, 20, 30, 40 }, { 15, 25, 35, 45 }, { 27, 29, 37, 48 }, { 32, 33, 39, 50 }, };
+
+		System.out.println(isElementFoundOptimized(mat, 37));
 
 	}
 }

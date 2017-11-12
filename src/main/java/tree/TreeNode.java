@@ -15,6 +15,8 @@ public class TreeNode<E> {
 
 	private TreeNode<E> right;
 
+	private int liss;
+
 	public TreeNode(E data) {
 		this.data = data;
 		this.left = null;
@@ -45,10 +47,17 @@ public class TreeNode<E> {
 		this.right = right;
 	}
 
+	public int getLiss() {
+		return liss;
+	}
+
+	public void setLiss(int liss) {
+		this.liss = liss;
+	}
+
 	@Override
 	public String toString() {
 		return "TreeNode [data=" + data + ", left=" + left + ", right=" + right + "]";
 	}
 
-	
 }

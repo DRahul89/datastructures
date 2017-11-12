@@ -86,6 +86,52 @@ public class LevelOrderTraversal {
 		}
 	}
 
+	public static void perfectBinaryTreeSpecificLevelOrderTraversal(final TreeNode<Integer> first,
+			final TreeNode<Integer> second) {
+		if (first != null) {
+
+			System.out.print(first.getData());
+		}
+		if (second != null) {
+
+			System.out.print(second.getData());
+		}
+		if (first != null && second != null) {
+			perfectBinaryTreeSpecificLevelOrderTraversal(first.getLeft(), second.getRight());
+			perfectBinaryTreeSpecificLevelOrderTraversal(first.getRight(), second.getLeft());
+		}
+
+	}
+
+	public static void perfectBinaryTreeSpecificLevelOrderTraversalWrapper(final TreeNode<Integer> root) {
+		System.out.print(root.getData());
+		perfectBinaryTreeSpecificLevelOrderTraversal(root.getLeft(), root.getRight());
+	}
+
+	public static void perfectBinaryTreeSpecificLevelOrderTraversalReverse(final TreeNode<Integer> first,
+			final TreeNode<Integer> second) {
+
+		if (first != null && second != null) {
+			perfectBinaryTreeSpecificLevelOrderTraversalReverse(first.getLeft(), second.getRight());
+			perfectBinaryTreeSpecificLevelOrderTraversalReverse(first.getRight(), second.getLeft());
+		}
+
+		if (first != null) {
+
+			System.out.print(first.getData());
+		}
+		if (second != null) {
+
+			System.out.print(second.getData());
+		}
+
+	}
+	
+	public static void perfectBinaryTreeSpecificLevelOrderTraversalReversalWrapper(final TreeNode<Integer> root) {
+		perfectBinaryTreeSpecificLevelOrderTraversalReverse(root.getLeft(), root.getRight());
+		System.out.print(root.getData());
+	}
+
 	public static void main(String[] args) {
 		TreeNode<Integer> root = new TreeNode<Integer>(1);
 		root.setLeft(new TreeNode<Integer>(2));
@@ -99,10 +145,13 @@ public class LevelOrderTraversal {
 		System.out.println(tree);
 
 		System.out.println("level order traversal of binary tree is ");
-		levelOrderTraversal(tree.getRoot());
-		levelOrderTraversalSec(tree.getRoot());
+		// levelOrderTraversal(tree.getRoot());
+		// levelOrderTraversalSec(tree.getRoot());
 		System.out.println();
-		spiralLevelOrderTraversal(tree.getRoot());
+		// spiralLevelOrderTraversal(tree.getRoot());
+		perfectBinaryTreeSpecificLevelOrderTraversalWrapper(root);
+		System.out.println();
+		perfectBinaryTreeSpecificLevelOrderTraversalReversalWrapper(root);
 	}
 
 }
